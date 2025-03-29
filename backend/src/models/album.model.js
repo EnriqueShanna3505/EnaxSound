@@ -12,7 +12,7 @@ const albumSchema = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
-      required,
+      required: true,
     },
     releaseYear: {
       type: Number,
