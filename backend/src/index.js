@@ -4,7 +4,9 @@ import { clerkMiddleware } from '@clerk/express';
 import fileUpload from 'express-fileupload';
 import path from 'path';
 import cors from 'cors';
+import fs from 'fs';
 import { createServer } from 'http';
+import cron from 'node-cron';
 
 import { initializeSocket } from './lib/socket.js';
 
@@ -45,7 +47,22 @@ app.use(
     },
   })
 );
-
+//cron jobs
+const tempDir = path.join(process.cwd(), 'tmp');
+cron.schedule('0 * * * *', () => {
+  if (fs.existsSync(tempDir)) {
+    fs.readdir(tempDir, (err, files) => {
+      if (err) {
+        console.log('error', err);
+        return;
+      }
+      for (const file of files) {
+        fs.unlink(path.join(tempDir, file), (err) => {});
+      }
+    });
+  }
+});
+//delete those files in every 1 hour
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/auth', authRoutes);
