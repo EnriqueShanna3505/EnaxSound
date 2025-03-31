@@ -1,3 +1,4 @@
+import { Message } from '../models/message.model.js';
 import { User } from '../models/user.model.js';
 
 export const getAllUsers = async (req, res, next) => {
@@ -9,7 +10,7 @@ export const getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
-/*
+
 export const getMessages = async (req, res, next) => {
   try {
     const myId = req.auth.userId;
@@ -27,4 +28,3 @@ export const getMessages = async (req, res, next) => {
     next(error);
   }
 };
-*/
